@@ -36,9 +36,21 @@
     <ClInclude Include="headers\TriangleGameComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="headers\InputDevice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Delegates.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\MySuper3DApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InputDevice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Delegates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

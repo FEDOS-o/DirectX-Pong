@@ -20,14 +20,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\BackgroundGameComponent.h" />
+    <ClInclude Include="headers\Delegates.h" />
     <ClInclude Include="headers\DisplayWin32.h" />
     <ClInclude Include="headers\Game.h" />
     <ClInclude Include="headers\GameComponent.h" />
+    <ClInclude Include="headers\InputDevice.h" />
     <ClInclude Include="headers\Keys.h" />
     <ClInclude Include="headers\RotatingTriangleGameComponent.h" />
     <ClInclude Include="headers\TriangleGameComponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Delegates.cpp" />
+    <ClCompile Include="src\InputDevice.cpp" />
     <ClCompile Include="src\MySuper3DApp.cpp" />
   </ItemGroup>
   <ItemGroup>
