@@ -13,6 +13,7 @@
 #include <vector>
 #include "DisplayWin32.h"
 #include "GameComponent.h"
+#include "InputDevice.h"
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -20,7 +21,6 @@
 #pragma comment(lib, "dxguid.lib")
 
 class GameComponent;
-
 
 
 class Game {
@@ -46,17 +46,22 @@ public:
 	ID3D11RenderTargetView* RenderView;
 	Microsoft::WRL::ComPtr<ID3D11Device> Device;
 	ID3D11DeviceContext* Context;
-	DisplayWin32 Display;
+
+
+	InputDevice* Input;
+	DisplayWin32* Display;
 	std::vector<GameComponent*> components;
 
 public:
 
 	Game(LPCWSTR applicationName, HINSTANCE hInstance, LONG screenWidth, LONG screenHeight) :
-		Display(screenWidth, screenHeight, hInstance, applicationName),
 		Instance(hInstance),
 		Name(applicationName),
 		TotalTime(0.0f),
 		ScreenResized(false) {
+
+		Display = new DisplayWin32(this, screenWidth, screenHeight, hInstance, applicationName);
+		Input = new InputDevice(this);
 
 		D3D_FEATURE_LEVEL featureLevel[] = { D3D_FEATURE_LEVEL_11_1 };
 
@@ -70,7 +75,7 @@ public:
 		swapDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 		swapDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 		swapDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		swapDesc.OutputWindow = Display.Window;
+		swapDesc.OutputWindow = Display->Window;
 		swapDesc.Windowed = true;
 		swapDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 		swapDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
@@ -120,13 +125,13 @@ public:
 
 		auto res = SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&BackBuffer);	// __uuidof(ID3D11Texture2D)
 		if (FAILED(res)) {
-			Display.createMessageBox(L"Failed to get back buffer", L"Error", MB_OK);
+			Display->createMessageBox(L"Failed to get back buffer", L"Error", MB_OK);
 			return res;
 		}
 
 		res = Device->CreateRenderTargetView(BackBuffer, nullptr, &RenderView);
 		if (FAILED(res)) {
-			Display.createMessageBox(L"Failed to create render target view", L"Error", MB_OK);
+			Display->createMessageBox(L"Failed to create render target view", L"Error", MB_OK);
 			return res;
 		}
 		return S_OK;
@@ -145,7 +150,7 @@ public:
 
 		res = Device->CreateRasterizerState(&rastDesc, &RasterizerState);
 		if (FAILED(res)) {
-			Display.createMessageBox(L"Failed to create rasterizer state", L"Error", MB_OK);
+			Display->createMessageBox(L"Failed to create rasterizer state", L"Error", MB_OK);
 			return res;
 		}
 
@@ -291,6 +296,14 @@ public:
 		if (SwapChain) {
 			SwapChain->Release();
 			SwapChain = nullptr;
+		}
+		if (Display) {
+			delete Display;
+			Display = nullptr;
+		}
+		if (Input) {
+			delete Input;
+			Input = nullptr;
 		}
 	}
 

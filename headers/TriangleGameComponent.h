@@ -52,7 +52,7 @@ public:
 					printf("%d", (res & mask ? 1 : 0));
 					mask >>= 1;
 				}
-				game->Display.createMessageBox(L"MyVeryFirstShader.hlsl", L"Missing Shader File", MB_OK);
+				game->Display->createMessageBox(L"MyVeryFirstShader.hlsl", L"Missing Shader File", MB_OK);
 				//MessageBox(hWnd, L"MyVeryFirstShader.hlsl", L"Missing Shader File", MB_OK);
 			}
 

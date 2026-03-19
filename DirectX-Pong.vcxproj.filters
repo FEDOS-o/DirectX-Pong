@@ -42,6 +42,18 @@
     <ClInclude Include="headers\Delegates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="headers\PaddleGameComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Rect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\WallGameComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\BallGameComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\MySuper3DApp.cpp">
@@ -51,6 +63,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Delegates.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DisplayWin32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
