@@ -1,5 +1,7 @@
+#pragma once
 #include "Rect.h"
 #include "GameComponent.h"
+#include "RectRender.h"
 
 class PaddleGameComponent : public GameComponent {
 
@@ -11,18 +13,21 @@ private:
 	float minY;
 	float maxY;
 
-	ID3D11Buffer* vertexBuffer;
-	ID3D11Buffer* indexBuffer;
+	RectangleRenderer renderer;
 
 public:
-	PaddleGameComponent(Game* game, Vector2 startPos, Keys upKey, Keys downKey, float minY = -350.0f, float maxY = -350.0f) :
+	PaddleGameComponent(Game* game, Vector2 startPos, Keys upKey, Keys downKey, float minY = -0.7f, float maxY = 0.7f) :
 		GameComponent(game),
-		bounds{ startPos, Vector2(20.0f, 100.0f) },
-		speed(500.0f),
+		bounds{ startPos, Vector2(0.05f, 0.25f) },
+		speed(2.0f),
 		upKey(upKey),
 		downKey(downKey),
 		minY(minY),
 		maxY(maxY) {}
+
+	void Initialize() override {
+		renderer.Initialize(game);
+	}
 
 	void Update(float deltaTime) override {
 		if (game->Input->IsKeyDown(upKey)) {
@@ -43,7 +48,15 @@ public:
 		}
 	}
 
+	void Draw() override {
+		renderer.DrawRect(game, bounds, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+	}
+
 	Rect GetBounds() const {
 		return bounds;
+	}
+
+	void DestroyResources() override {
+		renderer.DestroyResources();
 	}
 };

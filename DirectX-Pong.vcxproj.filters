@@ -54,6 +54,9 @@
     <ClInclude Include="headers\BallGameComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="headers\RectRender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\MySuper3DApp.cpp">

@@ -1,3 +1,4 @@
+#pragma once
 #include "Rect.h"
 #include "GameComponent.h"
 #include "PaddleGameComponent.h"
@@ -9,8 +10,13 @@ private:
 	Vector2 velocity;
 	float speed;
 
+	float pauseTimer;  
+	bool isPaused;
+
 	PaddleGameComponent* leftPaddle;
 	PaddleGameComponent* rightPaddle;
+
+	RectangleRenderer renderer;
 
 	void PaddleCollision(PaddleGameComponent* paddle, int direction) {
 		if (!paddle || !bounds.Intersects(paddle->GetBounds())) {
@@ -21,24 +27,37 @@ private:
 
 		float hitPos = (bounds.position.y - paddle->GetBounds().position.y) /
 			(paddle->GetBounds().size.y / 2);
-		velocity.y = hitPos * 300.0f;
+		velocity.y = hitPos * speed;
 		
 	}
 
 public:
 	BallGameComponent(Game* game, Vector2 startPos, PaddleGameComponent* leftPaddle, PaddleGameComponent* rightPaddle) :
 		GameComponent(game),
-		bounds{ startPos, Vector2(20.0f, 20.0f) },
-		velocity(300.0f, 200.0f),
-		speed(400.0f),
+		bounds{ startPos, Vector2(0.05f, 0.05f) },
+		velocity(1.5f, 1.0f), 
+		speed(1.0f),
 		leftPaddle(leftPaddle),
 		rightPaddle(rightPaddle) {}
 
+	void Initialize() override {
+		renderer.Initialize(game);
+	}
+
 	void Update(float deltaTime) override {
+		if (isPaused) {
+			pauseTimer -= deltaTime;
+			if (pauseTimer <= 0.0f) {
+				isPaused = false;
+			}
+			return; 
+		}
+
+
 		bounds.position.x += velocity.x * deltaTime;
 		bounds.position.y += velocity.y * deltaTime;
 
-		if (bounds.Top() < -400.0f || bounds.Bottom() > 400.0f) {
+		if (bounds.Top() < -0.95f || bounds.Bottom() > 0.95f) {
 			velocity.y *= -1;
 		}
 
@@ -46,20 +65,33 @@ public:
 		PaddleCollision(rightPaddle, -1);
 
 
-		if (bounds.Right() > 450.0f) {
-			std::cout << "Ãîë ëåâîìó!\n" << std::endl;
-			ResetBall(1);  // ëåòèò âëåâî
+		if (bounds.Right() > 0.95f) {
+			std::cout << "Left Player Scores!\n" << std::endl;
+			ResetBall(1); 
 		}
-		if (bounds.Left() < -450.0f) {
-			std::cout << "Ãîë ïðàâîìó!\n" << std::endl;
-			ResetBall(-1);  // ëåòèò âïðàâî
+		if (bounds.Left() < -0.95f) {
+			std::cout << "Right Player Scores!\n" << std::endl;
+			ResetBall(-1);  
 		}
 	}
 
 	void ResetBall(int direction) {
 		bounds.position = Vector2(0, 0);
-		velocity = Vector2(direction * speed, (rand() % 400 - 200.0f));
+		velocity = Vector2(direction * speed, (rand() % 200 - 100.0f) / 100.0f); 
+
+		isPaused = true;
+		pauseTimer = 1.5f;
 	}
 
-	Rect GetBounds() const { return bounds; }
+	void Draw() override {
+		renderer.DrawRect(game, bounds, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+	}
+
+	Rect GetBounds() const { 
+		return bounds; 
+	}
+
+	void DestroyResources() override {
+		renderer.DestroyResources();
+	}
 };

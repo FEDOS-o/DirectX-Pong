@@ -29,6 +29,7 @@
     <ClInclude Include="headers\Keys.h" />
     <ClInclude Include="headers\PaddleGameComponent.h" />
     <ClInclude Include="headers\Rect.h" />
+    <ClInclude Include="headers\RectRender.h" />
     <ClInclude Include="headers\RotatingTriangleGameComponent.h" />
     <ClInclude Include="headers\TriangleGameComponent.h" />
     <ClInclude Include="headers\WallGameComponent.h" />

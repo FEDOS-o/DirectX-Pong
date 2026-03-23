@@ -1,8 +1,8 @@
 #pragma once
 
-#include <windows.h>  // Обязательно для Windows типов
+#include <windows.h>  
 
-class Game;  // Только предварительное объявление
+class Game;  
 
 class DisplayWin32 {
 private:

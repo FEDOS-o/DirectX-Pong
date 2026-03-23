@@ -1,12 +1,19 @@
+#pragma once
 #include <SimpleMath.h>
 
 using namespace DirectX::SimpleMath;
+
+
 
 
 struct Rect {
 	Vector2 position;
 	Vector2 size;
 
+    struct Vertex {
+        Vector3 Position;
+        Vector4 Color;
+    };
 
 	float Left() const {
 		return position.x - size.x / 2; 
