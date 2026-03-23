@@ -31,11 +31,11 @@ public:
 
 	void Update(float deltaTime) override {
 		if (game->Input->IsKeyDown(upKey)) {
-			bounds.position.y -= speed * deltaTime;
+			bounds.position.y += speed * deltaTime;
 		}
 
 		if (game->Input->IsKeyDown(downKey)) {
-			bounds.position.y += speed * deltaTime;
+			bounds.position.y -= speed * deltaTime;
 		}
 
 
